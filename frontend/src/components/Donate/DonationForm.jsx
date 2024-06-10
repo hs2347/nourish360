@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const DonationForm = ({ selectedAmount, setSelectedAmount, submitDonation }) => {
+const DonationForm = ({ selectedAmount, setSelectedAmount, paymentHandler }) => {
   const [monthlyDonation, setMonthlyDonation] = useState(false);
   const [note, setNote] = useState('');
 
@@ -52,14 +52,7 @@ const DonationForm = ({ selectedAmount, setSelectedAmount, submitDonation }) => 
         ></textarea>
       </div>
 
-      <div className="bg-red-500 p-4 rounded-lg text-white text-center">
-        <button onClick={() => submitDonation(note)} className="bg-red-700 hover:bg-red-800 text-white py-2 px-4 rounded">
-          Donate
-        </button>
-       
-          <p className="mt-2">You are donating: Rs {selectedAmount}</p>
-        
-      </div>
+      
     </div>
   );
 };
