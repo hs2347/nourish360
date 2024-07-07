@@ -5,9 +5,12 @@ import Join from './components/Home/Join';
 import AboutUs from './components/Home/AboutUs';
 import Vision from './components/Home/Vision';
 import Events from './components/Events';
-import AddEvent from './components/AddEvent'; // Make sure to create this component
-
+import AddEvent from './components/AddEvent'; 
 import { Auth0Provider } from '@auth0/auth0-react';
+import Organisations from './components/Organisations';
+import AddOrganisation from './components/AddOrganisation';
+import Hero from './components/Hero';
+import MapComponent from './components/Map';
 
 function App() {
   return (
@@ -21,8 +24,10 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path="/" element={<><Join /><AboutUs /><Vision /><Events /></>} />
+          <Route path="/" element={<><Hero/><Join /><AboutUs /><Vision /><Events /><Organisations /></>} />
           <Route path="/add-event" element={<AddEvent />} />
+          <Route path="/add-organisation" element={<AddOrganisation />} />
+          <Route path="/maps" element={<MapComponent />} />
         </Routes>
       </Router>
     </Auth0Provider>

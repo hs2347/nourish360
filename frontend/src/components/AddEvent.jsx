@@ -13,7 +13,7 @@ const AddEvent = () => {
     e.preventDefault(); // Prevents the form from reloading the page
 
     try {
-      const res = await fetch("http://localhost:5000/api/events", {
+      const res = await fetch("http://localhost:5000/api/events/event", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,7 +51,7 @@ const AddEvent = () => {
   };
 
   return (
-    <div className="mx-10 lg:mx-[30vw] lg:min-h-[80vh] mt-24 lg:mt-32 overflow-hidden">
+    <div className="mx-10 lg:mx-[30vw] lg:min-h-[80vh] mt-5 lg:mt-32 overflow-hidden">
       <h1 className="text-4xl font-semibold">Create New Event</h1>
       <form onSubmit={handleSubmit} className="py-4 mt-4 border-t flex flex-col gap-5">
         <div>
@@ -62,6 +62,7 @@ const AddEvent = () => {
             type="text"
             id="fullname"
             placeholder="Your Name"
+            className="ml-3 p-2 border rounded-md w-96"
           />
         </div>
 
@@ -73,6 +74,7 @@ const AddEvent = () => {
             type="text"
             id="email"
             placeholder="youremail@example.com"
+            className="ml-3 p-2 border rounded-md w-96"
           />
         </div>
 
@@ -81,9 +83,9 @@ const AddEvent = () => {
           <textarea
             onChange={(e) => setMessage(e.target.value)}
             value={message}
-            className="h-32"
             id="message"
             placeholder="Type your message here..."
+            className="h-32 ml-3 p-2 border rounded-md w-96"
           ></textarea>
         </div>
 
@@ -95,6 +97,7 @@ const AddEvent = () => {
             type="text"
             id="organiser"
             placeholder="Event Organiser"
+            className="ml-3 p-2 border rounded-md w-96"
           />
         </div>
 
@@ -106,6 +109,7 @@ const AddEvent = () => {
             type="text"
             id="siteLink"
             placeholder="https://example.com"
+            className="ml-3 p-2 border rounded-md w-96"
           />
         </div>
 

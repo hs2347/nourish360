@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./connectDB');
 const EventRouter = require('./routes/EventsRoutes.js');
+const OrganisationRouter = require('./routes/OrganisationRoutes.js')
 
 dotenv.config();
 connectDB();
@@ -20,6 +21,7 @@ app.use(cors({
 }));
 
 app.use('/api/events', EventRouter);
+app.use('/api/organisations', OrganisationRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`Server running at http://localhost:${process.env.PORT}`);
