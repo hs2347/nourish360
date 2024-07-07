@@ -13,7 +13,7 @@ const Organisations = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/organisations/org");
+        const response = await axios.get("https://nourish-360.vercel.app/api/organisations/org");
         setUsers(response.data.organisations);
       } catch (err) {
         console.error(err);

@@ -24,7 +24,7 @@ const Events = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/events/event");
+        const response = await axios.get("https://nourish-360.vercel.app/api/events/event");
         setUsers(response.data.events);
         // console.log(response);
       } catch (err) {

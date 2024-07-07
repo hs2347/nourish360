@@ -13,7 +13,7 @@ const AddOrganisation = () => {
     e.preventDefault(); // Prevents the form from reloading the page
 
     try {
-      const res = await fetch("http://localhost:5000/api/organisations/org", {
+      const res = await fetch("https://nourish-360.vercel.app/api/organisations/org", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

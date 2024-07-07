@@ -13,7 +13,7 @@ const AddEvent = () => {
     e.preventDefault(); // Prevents the form from reloading the page
 
     try {
-      const res = await fetch("http://localhost:5000/api/events/event", {
+      const res = await fetch("https://nourish-360.vercel.app/api/events/event", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
