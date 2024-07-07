@@ -2,59 +2,80 @@ import React, { useEffect } from 'react';
 
 const MapComponent = () => {
   useEffect(() => {
+    // Function to initialize the map and autocomplete
     const initialize = () => {
-      const pyrmont = new window.google.maps.LatLng(-33.8665433, 151.1956316);
-      const map = new window.google.maps.Map(document.getElementById('map'), {
-        center: pyrmont,
-        zoom: 15,
-      });
-
-      const input = document.getElementById('searchTextField');
-      const autocomplete = new window.google.maps.places.Autocomplete(input);
-      autocomplete.bindTo('bounds', map);
-
-      const marker = new window.google.maps.Marker({
-        map: map,
-      });
-
-      autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
-        console.log(place);
-        if (place.geometry.viewport) {
-          map.fitBounds(place.geometry.viewport);
-        } else {
-          map.setCenter(place.geometry.location);
-          map.setZoom(17);
-        }
-        marker.setPosition(place.geometry.location);
-        marker.setVisible(true);
-
-        const service = new window.google.maps.places.PlacesService(map);
-        service.nearbySearch({ location: place.geometry.location, radius: 500 }, (results, status) => {
-          if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-            for (let i = 0; i < results.length; i++) {
-              createMarker(results[i]);
-            }
-          }
+      // Check if `google.maps` is available
+      if (window.google && window.google.maps && window.google.maps.places) {
+        const pyrmont = new window.google.maps.LatLng(-33.8665433, 151.1956316);
+        const map = new window.google.maps.Map(document.getElementById('map'), {
+          center: pyrmont,
+          zoom: 15,
         });
-      });
 
-      const createMarker = (place) => {
+        const input = document.getElementById('searchTextField');
+        const autocomplete = new window.google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+
         const marker = new window.google.maps.Marker({
           map: map,
-          position: place.geometry.location,
         });
 
-        window.google.maps.event.addListener(marker, 'click', () => {
-          alert(place.name);
-          if (place.photos && place.photos.length > 0) {
-            window.open(place.photos[0].getUrl(), "_blank");
+        autocomplete.addListener('place_changed', () => {
+          const place = autocomplete.getPlace();
+          console.log(place);
+          if (place.geometry?.viewport) {
+            map.fitBounds(place.geometry.viewport);
+          } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);
           }
+          marker.setPosition(place.geometry.location);
+          marker.setVisible(true);
+
+          const service = new window.google.maps.places.PlacesService(map);
+          service.nearbySearch({ location: place.geometry.location, radius: 500 }, (results, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+              results.forEach(createMarker);
+            }
+          });
         });
-      };
+
+        const createMarker = (place) => {
+          const marker = new window.google.maps.Marker({
+            map: map,
+            position: place.geometry.location,
+          });
+
+          marker.addListener('click', () => {
+            alert(place.name);
+            if (place.photos && place.photos.length > 0) {
+              window.open(place.photos[0].getUrl(), "_blank");
+            }
+          });
+        };
+      } else {
+        console.error('Google Maps API has not been loaded correctly.');
+      }
     };
 
-    window.google.maps.event.addDomListener(window, 'load', initialize);
+    // Dynamically load the Google Maps API script
+    const loadGoogleMapsScript = () => {
+      if (!window.google || !window.google.maps || !window.google.maps.places) {
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBU8TWgP9caS62_BbZY2bFWHWegtudaANk&libraries=places`;
+        script.async = true;
+        script.defer = true;
+        script.onload = initialize;
+        script.onerror = () => {
+          console.error('Failed to load Google Maps API.');
+        };
+        document.head.appendChild(script);
+      } else {
+        initialize();
+      }
+    };
+
+    loadGoogleMapsScript();
   }, []);
 
   return (
@@ -66,6 +87,7 @@ const MapComponent = () => {
         id="searchTextField"
         type="text"
         className="text-lg p-3 w-11/12 my-4 rounded-lg"
+        placeholder="Search for events or places"
       />
       <div id="map" className="w-full h-96"></div>
     </div>
@@ -73,3 +95,9 @@ const MapComponent = () => {
 };
 
 export default MapComponent;
+
+
+
+
+
+//AIzaSyBU8TWgP9caS62_BbZY2bFWHWegtudaANk
