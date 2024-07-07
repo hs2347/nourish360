@@ -1,10 +1,11 @@
 :root {
  
 }
-*{
+html, body{
   margin:0;
-  
+  overflow-x: hidden;
 }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
