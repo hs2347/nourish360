@@ -15,7 +15,7 @@ app.use(express.json());
 
 // CORS configuration
 app.use(cors({
-    origin: ['http://localhost:5173','https://nourish360.vercel.app/'], // Your frontend URL
+    origin: ['http://localhost:5173','https://nourish360.vercel.app'], // Your frontend URL
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
 }));
