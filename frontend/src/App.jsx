@@ -6,7 +6,6 @@ import Navbar from './components/Home/Navbar';
 import Join from './components/Home/Join';
 import AboutUs from './components/Home/AboutUs';
 import Vision from './components/Home/Vision';
-
 import Donate from './components/Donate/Donate';
 import DonateButton from './components/Donate/DonateButton';
 import Events from './components/Events';
@@ -17,21 +16,6 @@ import AddOrganisation from './components/AddOrganisation';
 import Hero from './components/Hero';
 import MapComponent from './components/Map';
 //import PaymentSuccess from "./PaymentSuccess";
-function Home() {
-  return (
-    <>
-      <Navbar />
-      <Join />
-      <AboutUs />
-      <Vision />
-      <DonateButton />
-    </>
-  );
-}
-
-
-
-
 function App() {
   return (
     <Auth0Provider

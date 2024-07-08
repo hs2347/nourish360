@@ -1,14 +1,13 @@
 // src/components/Navbar.jsx
 import {React,useState,useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Navbar.css';
-<<<<<<< HEAD
-=======
-import logo from '../../assets/logo.png'; // Import your logo image
+import logo from '/logo.png'; // Import your logo image
 import { useAuth0 } from "@auth0/auth0-react";
 
->>>>>>> 0f9990975651182f6f6d194ba8f942e22560b550
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [isNav, setNav]=useState(false);
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -64,8 +63,8 @@ const Navbar = () => {
      {
      !isAuthenticated&&(
        <div id="nav-part2" className='flex flex-wrap items-center justify-center'>
-       <h4><a href="#home">Home</a></h4>
-       <h4><a href="#donate">Donate</a></h4>
+       <h4><a href="#home" onClick={() => navigate('/')}>Home</a></h4>
+       <h4><a href="#donate"  onClick={() => navigate('/donate')}>Donate</a></h4>
        <h4><a href="#blog">Blog</a></h4>
        <h4 onClick={() => loginWithRedirect()}><a href="#login">Login</a></h4>
        <h4 onClick={() => loginWithRedirect()}><a href="#signup">Sign up</a></h4>
@@ -75,8 +74,8 @@ const Navbar = () => {
       {
      isAuthenticated&&(
        <div id="nav-part2">
-       <h4><a href="#home">Home</a></h4>
-       <h4><a href="#donate">Donate</a></h4>
+       <h4><a href="#home" onClick={() => navigate('/')}>Home</a></h4>
+       <h4><a href="#donate"  onClick={() => navigate('/donate')}>Donate</a></h4>
        <h4><a href="#blog">Blog</a></h4>
        <h4 onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}><a href="#logout">Logout</a></h4>
        <><a href="#profile"><img src={user.picture} className='rounded-[50%] aspect-square w-16' alt="user profile" /></a></>
@@ -96,8 +95,8 @@ const Navbar = () => {
         {
         !isAuthenticated&&(
           <div id="nav-part2">
-          <h4><a href="#home">Home</a></h4>
-          <h4><a href="#donate">Donate</a></h4>
+          <h4><a href="#home" onClick={() => navigate('/')}>Home</a></h4>
+          <h4><a href="#donate" onClick={() => navigate('/donate')}>Donate</a></h4>
           <h4><a href="#blog">Blog</a></h4>
           <h4 onClick={() => loginWithRedirect()}><a href="#login">Login</a></h4>
           <h4 onClick={() => loginWithRedirect()}><a href="#signup">Sign up</a></h4>
@@ -107,8 +106,8 @@ const Navbar = () => {
          {
         isAuthenticated&&(
           <div id="nav-part2">
-          <h4><a href="#home">Home</a></h4>
-          <h4><a href="#donate">Donate</a></h4>
+          <h4><a href="#home" onClick={() => navigate('/')}>Home</a></h4>
+          <h4><a href="#donate" onClick={() => navigate('/donate')}>Donate</a></h4>
           <h4><a href="#blog">Blog</a></h4>
           <h4 onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}><a href="#logout">Logout</a></h4>
           <><a href="#profile"><img src={user.picture} className='rounded-[50%] aspect-square w-16' alt="user profile" /></a></>
