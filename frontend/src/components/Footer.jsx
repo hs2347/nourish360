@@ -5,7 +5,7 @@ export default function App() {
 
   <footer className="bg-neutral-200 text-center text-white dark:bg-neutral-600">
     <div className="container pt-4">
-        <div className='text-black mb-5'>
+        <div className='text-neutral-800 dark:text-neutral-200 mb-5'>
             <h1 >Designed and Developed By :</h1>
            <div className='font-bold text-lg'>
             <a href="https://www.linkedin.com/in/hrishita-singh-a12741224?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">Hrishita | </a>
