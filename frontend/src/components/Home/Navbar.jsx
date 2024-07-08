@@ -1,9 +1,12 @@
 // src/components/Navbar.jsx
 import {React,useState,useEffect} from 'react';
 import './Navbar.css';
+<<<<<<< HEAD
+=======
 import logo from '../../assets/logo.png'; // Import your logo image
 import { useAuth0 } from "@auth0/auth0-react";
 
+>>>>>>> 0f9990975651182f6f6d194ba8f942e22560b550
 
 const Navbar = () => {
   const [isNav, setNav]=useState(false);
@@ -87,7 +90,7 @@ const Navbar = () => {
 </div>
     <nav className='hidden md:flex overflow-x-hidden mx-auto bg-[]'>
       <div className="left">
-        <img src={logo} alt="Logo" className="logo" />
+        <img src="/logo.png" alt="Logo" className="logo" />
       </div>
       <div className="right">
         {
