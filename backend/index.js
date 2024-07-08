@@ -4,7 +4,7 @@ const cors = require("cors");
 const crypto = require("crypto");
 require("dotenv").config();
 const connectDB = require('./connectDB');
-const paymentRoute = require('./routes/paymentRoutes.js')
+// const paymentRoute = require('./routes/paymentRoutes.js')
 
 const EventRouter = require('./routes/EventsRoutes.js');
 const OrganisationRouter = require('./routes/OrganisationRoutes.js')
@@ -29,7 +29,7 @@ app.use(cors({
 //Routes
 app.use('/api/events', EventRouter);
 app.use('/api/organisations', OrganisationRouter);
-app.use("/api/payments", paymentRoute);
+// app.use("/api/payments", paymentRoute);
 
 app.get("/api/getkey", (req, res) =>
     res.status(200).json({ key: process.env.RAZORPAY_API_KEY })

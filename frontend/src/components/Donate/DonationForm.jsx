@@ -28,16 +28,10 @@ const DonationForm = ({ selectedAmount, setSelectedAmount, paymentHandler }) => 
           className="p-2 w-48 bg-blue-200 border border-gray-800 rounded mb-4"
         />
         <div className="flex items-center justify-center text-white mb-4">
-          <input
-            type="checkbox"
-            id="monthly-donation-checkbox"
-            checked={monthlyDonation}
-            onChange={() => setMonthlyDonation(!monthlyDonation)}
-            className="mr-2"
-          />
-          <label htmlFor="monthly-donation-checkbox">Make this a monthly donation</label>
+         
+       
         </div>
-        <button onClick={handleDonateCustomAmount} className="amount-option bg-red-500 text-white py-2 px-4 rounded">
+        <button onClick={handleDonateCustomAmount} className="amount-option bg-red-500  hover:bg-red-800 text-white py-2 px-4 rounded">
           Confirm Amount
         </button>
       </div>

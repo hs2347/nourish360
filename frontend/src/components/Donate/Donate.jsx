@@ -56,7 +56,7 @@ const Donate = () => {
         console.log(jsonRes);
       },
       prefill: {
-       
+
         name: "William", //your customer's name
         email: "william@gmail.com",
         contact: "9000000000", //Provide the customer's phone number for better conversion rates
@@ -89,12 +89,12 @@ const Donate = () => {
         <h1 className="text-center text-red-500 text-4xl mb-6">DONATE</h1>
         <DonationOptions selectAmount={selectAmount} />
         <DonationForm selectedAmount={selectedAmount} setSelectedAmount={setSelectedAmount} paymentHandler={paymentHandler} />
-        <div className="bg-red-500 p-4 rounded-lg text-white text-center">
-        <button onClick={() => paymentHandler(selectedAmount)} className="bg-red-700 hover:bg-red-800 text-white py-2 px-4 rounded">
+        <div className=" p-4 rounded-lg text-white text-center">
+        <button onClick={() => paymentHandler(selectedAmount)} className="bg-red-500 hover:bg-red-800 text-white py-2 px-4 rounded">
       Donate
         </button>
        
-          <p className="mt-2">You are donating: Rs {selectedAmount}</p>
+          
         
       </div>
         <div className="bg-blue-200 p-4 rounded-lg text-black mt-6">
