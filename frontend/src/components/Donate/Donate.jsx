@@ -15,7 +15,7 @@ const Donate = () => {
   const receiptId = "qwsaq1";
 
   const paymentHandler = async (e) => {
-    const response = await fetch("http://localhost:5000/order", {
+    const response = await fetch("https://nourish-360.vercel.app/order", {
       method: "POST",
       body: JSON.stringify({
         amount,
@@ -43,7 +43,7 @@ const Donate = () => {
         };
 
         const validateRes = await fetch(
-          "http://localhost:5000/order/validate",
+          "https://nourish-360.vercel.app/order/validate",
           {
             method: "POST",
             body: JSON.stringify(body),
