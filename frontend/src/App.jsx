@@ -15,6 +15,7 @@ import Organisations from './components/Organisations';
 import AddOrganisation from './components/AddOrganisation';
 import Hero from './components/Hero';
 import MapComponent from './components/Map';
+import Footer from './components/Footer';
 //import PaymentSuccess from "./PaymentSuccess";
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
         <Navbar />
         <Routes>
            <Route path="/donate" element={<Donate />} />
-          <Route path="/" element={<><Hero/><Join /><AboutUs /><Vision /><Events /><Organisations /></>} />
+          <Route path="/" element={<><Hero/><Join /><AboutUs /><Vision /><Events /><Organisations /><Footer/></>} />
           <Route path="/add-event" element={<AddEvent />} />
           <Route path="/add-organisation" element={<AddOrganisation />} />
           <Route path="/maps" element={<MapComponent />} />
