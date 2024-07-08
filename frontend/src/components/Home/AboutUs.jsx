@@ -30,6 +30,15 @@ const AboutUs = () => {
       Click here!
     </a>
   </div></div>
+  <div className='flex flex-col justify-center mx-2 px-8 md:px-0 md:mx-72 mt-16 mb-16 bg-gray-100 rounded-md'>
+      <div>
+    <h1 className="text-4xl font-bold pt-6 text-center">Have doubts? </h1>
+    <h1 className="text-2xl pt-6 text-center">Click the button below to meet our chatbot and clear all your doubts!</h1></div>
+  <div  className='mb-8 flex justify-center mt-8'>
+    <a href="https://gemini-chat-bot-nourish360.vercel.app/" className=" bg-black text-white py-2 px-4 text-lg rounded transition-colors duration-300 hover:bg-gray-800">
+      Click here!
+    </a>
+  </div></div>
   </>
   );
 };
