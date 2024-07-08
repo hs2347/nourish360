@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DonationOptions from './DonationOptions';
 import DonationForm from './DonationForm';
-import donateBg from '../../assets/donate.jpg';
+
 import axios from "axios";
 
 const Donate = () => {
@@ -84,7 +84,7 @@ const Donate = () => {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cover bg-fixed" style={{ backgroundImage: `url(${donateBg})` }}>   
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-fixed" style={{ backgroundImage: `url(/donate.jpg)` }}>   
       <div className="bg-gray-800 bg-opacity-80 p-10 rounded-2xl shadow-xl w-full max-w-lg">
         <h1 className="text-center text-red-500 text-4xl mb-6">DONATE</h1>
         <DonationOptions selectAmount={selectAmount} />
