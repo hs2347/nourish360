@@ -4,6 +4,7 @@ const cors = require("cors");
 const crypto = require("crypto");
 require("dotenv").config();
 const connectDB = require('./connectDB');
+const { Payment } = require("./models/paymentModel.js");
 
 const EventRouter = require('./routes/EventsRoutes.js');
 const OrganisationRouter = require('./routes/OrganisationRoutes.js');
@@ -59,23 +60,37 @@ app.post("/order", async (req, res) => {
 });
 
 app.post("/order/validate", async (req, res) => {
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+  try {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
-  const sha = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
+    // Verify signature
+    const sha = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
+    sha.update(`${razorpay_order_id}|${razorpay_payment_id}`);
+    const digest = sha.digest("hex");
 
-  sha.update(`${razorpay_order_id}|${razorpay_payment_id}`);
-  const digest = sha.digest("hex");
+    if (digest !== razorpay_signature) {
+      return res.status(400).json({ msg: "Transaction is not legit!" });
+    }
 
-  if (digest !== razorpay_signature) {
-    return res.status(400).json({ msg: "Transaction is not legit!" });
+    await Payment.create({
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+      status: "captured", // optional field
+      createdAt: new Date(),
+    });
+
+    res.json({
+      msg: "success",
+      orderId: razorpay_order_id,
+      paymentId: razorpay_payment_id,
+    });
+  } catch (error) {
+    console.error("Validate error:", error);
+    res.status(500).json({ msg: "Server error" });
   }
-
-  res.json({
-    msg: "success",
-    orderId: razorpay_order_id,
-    paymentId: razorpay_payment_id,
-  });
 });
+
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
