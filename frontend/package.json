@@ -12,6 +12,7 @@
   "dependencies": {
     "@auth0/auth0-react": "^2.4.0",
     "@gsap/react": "^2.1.1",
+    "axios": "^1.11.0",
     "gsap": "^3.12.5",
     "mdb-react-ui-kit": "^8.0.0",
     "react": "^18.2.0",

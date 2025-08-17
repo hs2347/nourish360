@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // CORS configuration
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://nourish360.vercel.app'],
+    origin: ['http://localhost:5173', 'https://nourish360-m9f7.vercel.app/'],
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
 }));
