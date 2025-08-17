@@ -35,7 +35,7 @@ const paymentVerification = async (req, res) => {
     });
 
     res.redirect(
-      `https://nourish-360.vercel.app/paymentsuccess?reference=${razorpay_payment_id}`
+      `${BACKEND_URL}/paymentsuccess?reference=${razorpay_payment_id}`
     );
   } else {
     res.status(400).json({

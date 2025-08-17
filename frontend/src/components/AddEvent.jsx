@@ -1,4 +1,5 @@
 import { useState } from "react";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const AddEvent = () => {
   const [fullname, setFullname] = useState("");
@@ -13,7 +14,7 @@ const AddEvent = () => {
     e.preventDefault(); // Prevents the form from reloading the page
 
     try {
-      const res = await fetch("https://nourish-360.vercel.app/api/events/event", {
+      const res = await fetch("${BACKEND_URL}/api/events/event", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

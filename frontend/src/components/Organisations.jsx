@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Make sure axios is imported
 import orgImg from '../assets/organisation.jpg'
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 
 const Organisations = () => {
@@ -13,7 +14,7 @@ const Organisations = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("https://nourish-360.vercel.app/api/organisations/org");
+        const response = await axios.get("${BACKEND_URL}/api/organisations/org");
         setUsers(response.data.organisations);
       } catch (err) {
         console.error(err);

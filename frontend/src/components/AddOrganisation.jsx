@@ -8,12 +8,13 @@ const AddOrganisation = () => {
   const [siteLink, setSiteLink] = useState("");
   const [error, setError] = useState([]);
   const [success, setSuccess] = useState(false);
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevents the form from reloading the page
 
     try {
-      const res = await fetch("https://nourish-360.vercel.app/api/organisations/org", {
+      const res = await fetch("${BACKEND_URL}/api/organisations/org", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

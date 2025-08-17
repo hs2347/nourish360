@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DonationOptions from './DonationOptions';
 import DonationForm from './DonationForm';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const Donate = () => {
   const [selectedAmount, setSelectedAmount] = useState(0);
@@ -15,7 +16,7 @@ const Donate = () => {
 
   const paymentHandler = async () => {
     try {
-      const response = await fetch("https://nourish-360.vercel.app/order", {
+      const response = await fetch("${BACKEND_URL}/order", {
         method: "POST",
         body: JSON.stringify({
           amount,
@@ -45,7 +46,7 @@ const Donate = () => {
         order_id: order.id,
         handler: async function (response) {
           try {
-            const validateRes = await fetch("https://nourish-360.vercel.app/order/validate", {
+            const validateRes = await fetch("${BACKEND_URL}/order/validate", {
               method: "POST",
               body: JSON.stringify(response),
               headers: {

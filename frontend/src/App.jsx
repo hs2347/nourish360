@@ -20,12 +20,12 @@ import Footer from './components/Footer';
 function App() {
   return (
     <Auth0Provider
-      domain="dev-wx0wzhodkgnv7da8.us.auth0.com"
-      clientId="ZKi2jjNqTOLitVw0zK1hEZ8FtO4soPty"
-      authorizationParams={{
-        redirect_uri: window.location.origin
-      }}
-    >
+    domain="dev-n2x6dhgek5x7hwum.us.auth0.com"
+    clientId="ZXYHUfxj63vTy2oJmwDvMJIY6yMhkBBP"
+    authorizationParams={{
+      redirect_uri: window.location.origin
+    }}
+  >
       <Router>
         <Navbar />
         <Routes>
