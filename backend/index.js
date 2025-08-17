@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // CORS configuration
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://nourish360-m9f7.vercel.app/'],
+    origin: ['http://localhost:5173', 'https://nourish360-m9f7.vercel.app'],
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
 }));
@@ -59,7 +59,7 @@ app.post("/order", async (req, res) => {
   }
 });
 
-app.post("/order/validate", async (req, res) => {
+app.post("/paymentverification", async (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 

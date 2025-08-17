@@ -8,6 +8,12 @@ const checkout = async (req, res) => {
     currency: "INR",
   };
   const order = await instance.orders.create(options);
+  await Payment.create({
+    razorpay_order_id: order.id,
+    razorpay_payment_id: null, 
+    razorpay_signature: null, 
+  });
+  
 
   res.status(200).json({
     success: true,
@@ -21,7 +27,7 @@ const paymentVerification = async (req, res) => {
   const body = razorpay_order_id + "|" + razorpay_payment_id;
 
   const expectedSignature = crypto
-    .createHmac("sha256", process.env.RAZORPAY_APT_SECRET)
+    .createHmac("sha256", process.env.RAZORPAY_SECRET)
     .update(body.toString())
     .digest("hex");
 
@@ -35,7 +41,7 @@ const paymentVerification = async (req, res) => {
     });
 
     res.redirect(
-      `${BACKEND_URL}/paymentsuccess?reference=${razorpay_payment_id}`
+      `https://nourish360-backend.onrender.com/paymentsuccess?reference=${razorpay_payment_id}`
     );
   } else {
     res.status(400).json({

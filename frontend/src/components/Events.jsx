@@ -5,7 +5,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import event from '../assets/event.jpg';
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const NextArrow = ({ onClick }) => (
     <div className="slick-arrow slick-next" onClick={onClick} style={{ right: '10px', zIndex: 1 }}>›</div>
@@ -25,7 +24,7 @@ const Events = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("${BACKEND_URL}/api/events/event");
+        const response = await axios.get("https://nourish360-backend.onrender.com/api/events/event");
         setUsers(response.data.events);
         // console.log(response);
       } catch (err) {
