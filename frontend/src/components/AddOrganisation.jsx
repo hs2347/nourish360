@@ -1,4 +1,6 @@
-import { useState } from "react";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../api';
 
 const AddOrganisation = () => {
   const [orgname, setOrgname] = useState("");
@@ -8,49 +10,29 @@ const AddOrganisation = () => {
   const [siteLink, setSiteLink] = useState("");
   const [error, setError] = useState([]);
   const [success, setSuccess] = useState(false);
- 
+ const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevents the form from reloading the page
+        e.preventDefault();
+        try {
+            const { data } = await api.post('/organisations', {
+                orgname,
+                email,
+                location,
+                donatePage,
+                siteLink,
+            });
 
-    try {
-      const res = await fetch("https://nourish360-backend.onrender.com/api/organisations/org", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          orgname,
-          email,
-          location,
-          donatePage,
-          siteLink,
-        }),
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(`HTTP error! status: ${res.status} - ${errorData.message}`);
-      }
-
-      const data = await res.json();
-      const { message: msg, success } = data;
-      setError([msg]);
-      setSuccess(success);
-
-      if (success) {
-        setOrgname("");
-        setEmail("");
-        setLocation("");
-        setDonatePage("");
-        setSiteLink("");
-      }
-    } catch (error) {
-      console.error('Error submitting Organisation:', error);
-      setError([error.message]);
-      setSuccess(false);
-    }
-  };
+            if (data.success) {
+                navigate('/');
+            } else {
+                setError(data.message || 'An unknown error occurred.');
+            }
+        } catch (err) {
+            console.error('Error submitting organisation:', err);
+            setError(err.response?.data?.message || 'Failed to add organisation.');
+        }
+    };
 
   return (
     <div className="mx-10 lg:mx-[30vw] lg:min-h-[80vh] mt-5 lg:mt-32 overflow-hidden">

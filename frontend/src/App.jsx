@@ -17,7 +17,8 @@ import MapComponent from './components/Map';
 import Footer from './components/Footer';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-//import PaymentSuccess from "./PaymentSuccess";
+import EditEvent from './pages/EditEvent';
+import EditOrganisation from './pages/EditOrganisations';
 function App() {
   return (
       <Router>
@@ -26,9 +27,11 @@ function App() {
           <Route path="/donate" element={<Donate />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/" element={<><Hero/><Join /><AboutUs /><Vision /><Events /><Organisations /><Footer/></>} />
+          <Route path="/" element={<><Hero/><Join /><AboutUs /><Events /><Organisations /><Vision /><Footer/></>} />
           <Route path="/add-event" element={<AddEvent />} />
           <Route path="/add-organisation" element={<AddOrganisation />} />
+           <Route path="/edit-organisation/:id" element={<EditOrganisation />} />
+            <Route path="/edit-event/:id" element={<EditEvent />} />
           <Route path="/maps" element={<MapComponent />} />
         </Routes>
       </Router>

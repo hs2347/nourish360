@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 const organisationSchema = new Schema({
+   user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
     orgname: {
       type: String,
       required: [true, "Organisation name is required."],
@@ -37,4 +42,4 @@ const organisationSchema = new Schema({
 const Organisations =
   mongoose.models.Organisations || mongoose.model("Organisations", organisationSchema);
 
-module.exports=Organisations
+module.exports=Organisations;

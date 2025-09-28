@@ -8,37 +8,79 @@ const getOrganisation = async (req, res) => {
         const organisations = await Organisations.find({});
         res.status(200).json({ success: true, organisations });
     } catch (error) {
-        console.error('Error fetching organisations:', error);
-        res.status(500).json({ success: false, message: 'Error fetching Organisations', error: error.message });
+        res.status(500).json({ success: false, message: 'Error fetching Organisations' });
     }
 };
 
 const createOrganisation = async (req, res) => {
     try {
         const { orgname, email, location, donatePage, siteLink } = req.body;
-        // Ensure all required fields are present
         if (!orgname || !email || !location || !donatePage || !siteLink) {
-            console.log('Missing required fields:', { orgname, email, location, donatePage, siteLink });
             return res.status(400).json({ success: false, message: 'Missing required fields' });
         }
-
         await connectDB();
-        const newOrganisation = new Organisations({ orgname, email, location, donatePage, siteLink });
-        await newOrganisation.save();
+        await Organisations.create({
+            orgname, email, location, donatePage, siteLink,
+            user: req.user.id // Link the organisation to the logged-in user
+        });
         res.status(200).json({ success: true, message: "Organisation saved successfully" });
     } catch (error) {
-        if (error instanceof mongoose.Error.ValidationError) {
-            let errorList = [];
-            for (let e in error.errors) {
-                errorList.push(error.errors[e].message);
-            }
-            console.log('Validation error:', errorList);
-            res.status(400).json({ success: false, errors: errorList });
-        } else {
-            console.error('Error saving Organisation:', error);
-            res.status(500).json({ success: false, message: "Unable to save.", error: error.message });
-        }
+        res.status(500).json({ success: false, message: "Unable to save." });
     }
 };
 
-module.exports = { getOrganisation, createOrganisation };
+const updateOrganisation = async (req, res) => {
+    try {
+        const organisation = await Organisations.findById(req.params.id);
+
+        if (!organisation) {
+            return res.status(404).json({ success: false, message: 'Organisation not found' });
+        }
+
+        // Authorization Check
+        if (organisation.user.toString() !== req.user.id) {
+            return res.status(401).json({ success: false, message: 'User not authorized' });
+        }
+
+        const updatedOrganisation = await Organisations.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.status(200).json({ success: true, organisation: updatedOrganisation });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Error updating organisation" });
+    }
+};
+
+const deleteOrganisation = async (req, res) => {
+    try {
+        const organisation = await Organisations.findById(req.params.id);
+
+        if (!organisation) {
+            return res.status(404).json({ success: false, message: 'Organisation not found' });
+        }
+
+        // Authorization Check
+        if (organisation.user.toString() !== req.user.id) {
+            return res.status(401).json({ success: false, message: 'User not authorized' });
+        }
+
+        await organisation.deleteOne();
+        res.status(200).json({ success: true, message: 'Organisation removed' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Error deleting organisation" });
+    }
+};
+const getOrganisationById = async (req, res) => {
+    try {
+        await connectDB();
+        const organisation = await Organisations.findById(req.params.id);
+        if (organisation) {
+            res.status(200).json({ success: true, organisation });
+        } else {
+            res.status(404).json({ success: false, message: 'Organisation not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error fetching Organisation' });
+    }
+};
+
+
+module.exports = { getOrganisation, createOrganisation, updateOrganisation, deleteOrganisation, getOrganisationById };

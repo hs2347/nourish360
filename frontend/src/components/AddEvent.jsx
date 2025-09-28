@@ -1,4 +1,6 @@
-import { useState } from "react";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../api';
 
 const AddEvent = () => {
   const [fullname, setFullname] = useState("");
@@ -8,46 +10,30 @@ const AddEvent = () => {
   const [siteLink, setSiteLink] = useState("");
   const [error, setError] = useState([]);
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevents the form from reloading the page
+   const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            
+            const { data } = await api.post('/events', {
+                fullname,
+                email,
+                message,
+                organiser,
+                siteLink,
+            });
 
-    try {
-      const res = await fetch("https://nourish360-backend.onrender.com/api/events/event", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fullname,
-          email,
-          message,
-          organiser,
-          siteLink,
-        }),
-      });
-
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status} - ${res.statusText}`);
-      }
-
-      const data = await res.json();
-      const { message: msg, success } = data;
-      setError([msg]);
-      setSuccess(success);
-
-      if (success) {
-        setFullname("");
-        setEmail("");
-        setMessage("");
-        setOrganiser("");
-        setSiteLink("");
-      }
-    } catch (error) {
-      console.error('Error submitting event:', error);
-      setError([error.message]);
-      setSuccess(false);
-    }
+       
+ if (data.success) {
+                navigate('/'); // Redirect to events page on success
+            } else {
+                setError(data.message || 'An unknown error occurred.');
+            }
+        } catch (err) {
+            console.error('Error submitting event:', err);
+            setError(err.response?.data?.message || 'Failed to add event.');
+        }
   };
 
   return (
