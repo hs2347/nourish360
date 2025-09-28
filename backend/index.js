@@ -8,7 +8,7 @@ const { Payment } = require("./models/paymentModel.js");
 
 const EventRouter = require('./routes/EventsRoutes.js');
 const OrganisationRouter = require('./routes/OrganisationRoutes.js');
-
+const authRoutes = require('./routes/authRoutes.js');
 const app = express();
 
 connectDB();
@@ -19,11 +19,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // CORS configuration
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://nourish360-m9f7.vercel.app'],
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type'],
+    origin: ['http://localhost:5173', 'https://nourish360-m9f7.vercel.app'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'], 
+    credentials: true
 }));
-
+app.use('/api/auth', authRoutes);
 app.use('/api/events', EventRouter);
 app.use('/api/organisations', OrganisationRouter);
 
