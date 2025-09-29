@@ -8,7 +8,7 @@ const AddOrganisation = () => {
   const [location, setLocation] = useState("");
   const [donatePage, setDonatePage] = useState("");
   const [siteLink, setSiteLink] = useState("");
-  const [error, setError] = useState([]);
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
  const navigate = useNavigate();
 

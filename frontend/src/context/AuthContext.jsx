@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import axios from 'axios';
-const BACKEND_URL = `${import.meta.env.VITE_BACKEND_URL}`;
+import api from '../api'; 
+
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
@@ -15,7 +15,8 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const { data } = await axios.post(`${BACKEND_URL}/api/auth/login`, { email, password });
+      // 4. CHANGE the axios call to use the 'api' instance and a relative path
+      const { data } = await api.post('/auth/login', { email, password });
       localStorage.setItem('userInfo', JSON.stringify(data));
       setUserInfo(data);
       return data;
@@ -29,7 +30,8 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (email, password) => {
     try {
-        const { data } = await axios.post(`${BACKEND_URL}/api/auth/signup`, { email, password });
+        // 5. CHANGE this call as well
+        const { data } = await api.post('/auth/signup', { email, password });
         localStorage.setItem('userInfo', JSON.stringify(data));
         setUserInfo(data);
         return data;

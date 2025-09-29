@@ -1,92 +1,73 @@
 import React, { useState } from 'react';
 import DonationOptions from './DonationOptions';
 import DonationForm from './DonationForm';
-
+import api from '../../api'; // Use the api instance
 
 const Donate = () => {
-  const [selectedAmount, setSelectedAmount] = useState(0);
+  const [selectedAmount, setSelectedAmount] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [note, setNote] = useState('');
 
   const selectAmount = (amount) => {
     setSelectedAmount(amount);
   };
 
-  const amount = selectedAmount * 100;
-  const currency = "INR";
-  const receiptId = "qwsaq1";
-
   const paymentHandler = async () => {
+    if (!name || !phone || !selectedAmount) {
+        alert("Please fill in your name, phone number, and an amount.");
+        return;
+    }
+
     try {
-      const response = await fetch("https://nourish360-backend.onrender.com/order", {
-        method: "POST",
-        body: JSON.stringify({
-          amount,
-          currency,
-          receipt: receiptId,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const { data: { order, key } } = await api.post('/checkout', {
+        amount: selectedAmount,
+        name,
+        phone,
+        note
       });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`HTTP error! Status: ${response.status}, Response: ${errorText}`);
-      }
-
-      const order = await response.json();
-      console.log(order);
-
-      var options = {
-        key: "rzp_test_ZeF9KRTpIM8SyQ", // Replace with your live Key ID
-        amount,
-        currency,
+      const options = {
+        key,
+        amount: order.amount,
+        currency: "INR",
         name: "Nourish360",
-        description: "Test Transaction",
-        image: "https://example.com/your_logo",
+        description: "Donation Transaction",
+        image: "/logo.png", // Or your logo URL
         order_id: order.id,
         handler: async function (response) {
-          try {
-            const validateRes = await fetch("https://nourish360-backend.onrender.com/paymentverification", {
-              method: "POST",
-              body: JSON.stringify(response),
-              headers: {
-                "Content-Type": "application/json",
-              },
-            });
-
-            if (!validateRes.ok) {
-              const errorText = await validateRes.text();
-              throw new Error(`Validation error! Status: ${validateRes.status}, Response: ${errorText}`);
+            const dataToVerify = {
+                ...response,
+                name,
+                phone,
+                note
+            };
+            try {
+                const verificationResponse = await api.post('/paymentverification', dataToVerify);
+                // You can handle success navigation here if needed, 
+                // but the backend already redirects.
+                console.log(verificationResponse);
+            } catch (error) {
+                console.error("Payment Verification Error:", error);
             }
-
-            const jsonRes = await validateRes.json();
-            console.log(jsonRes);
-          } catch (error) {
-            console.error("Validation Error:", error);
-          }
         },
         prefill: {
-          name: "William",
-          email: "william@gmail.com",
-          contact: "9000000000",
+          name: name,
+          contact: phone,
+          // You could add an email field to the form too
         },
         notes: {
-          address: "Razorpay Corporate Office",
+          note: note,
         },
         theme: {
           color: "#3399cc",
         },
       };
 
-      var rzp1 = new window.Razorpay(options);
+      const rzp1 = new window.Razorpay(options);
       rzp1.on("payment.failed", function (response) {
-        alert(response.error.code);
-        alert(response.error.description);
-        alert(response.error.source);
-        alert(response.error.step);
-        alert(response.error.reason);
-        alert(response.error.metadata.order_id);
-        alert(response.error.metadata.payment_id);
+        alert("Payment failed. Please try again.");
+        console.error(response);
       });
       rzp1.open();
     } catch (error) {
@@ -99,7 +80,16 @@ const Donate = () => {
       <div className="bg-gray-800 bg-opacity-80 p-10 rounded-2xl shadow-xl w-full max-w-lg">
         <h1 className="text-center text-red-500 text-4xl mb-6">DONATE</h1>
         <DonationOptions selectAmount={selectAmount} />
-        <DonationForm selectedAmount={selectedAmount} setSelectedAmount={setSelectedAmount} />
+        <DonationForm 
+            selectedAmount={selectedAmount} 
+            setSelectedAmount={setSelectedAmount}
+            name={name}
+            setName={setName}
+            phone={phone}
+            setPhone={setPhone}
+            note={note}
+            setNote={setNote}
+        />
         <div className="p-4 rounded-lg text-white text-center">
           <button onClick={paymentHandler} className="bg-red-500 hover:bg-red-800 text-white py-2 px-4 rounded">
             Donate
@@ -107,8 +97,8 @@ const Donate = () => {
         </div>
         <div className="bg-blue-200 p-4 rounded-lg text-black mt-6">
           <ul className="list-disc list-inside">
-            <li>A payment of Rs 1000 can feed up to 10 people. <a href="stats.html" className="text-red-500">Click here to explore statistics related to hunger.</a></li>
-            <li>Our weekly food libraries are a unique initiative in eradicating hunger in local communities. <a href="link2.html" className="text-red-500">Click here to learn more about our food libraries.</a></li>
+            <li>A payment of Rs 1000 can feed up to 10 people.</li>
+            <li>Our weekly food libraries are a unique initiative in eradicating hunger in local communities.</li>
           </ul>
         </div>
       </div>

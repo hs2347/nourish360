@@ -12,7 +12,7 @@ const Signup = () => {
       const { data } = await axios.post('/api/auth/signup', { email, password });
       localStorage.setItem('userInfo', JSON.stringify(data));
       // Redirect or update state
-    } catch (error) {
+    } catch (err) {
       // Handle error
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);

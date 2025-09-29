@@ -8,7 +8,7 @@ const AddEvent = () => {
   const [message, setMessage] = useState("");
   const [organiser, setOrganiser] = useState("");
   const [siteLink, setSiteLink] = useState("");
-  const [error, setError] = useState([]);
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 

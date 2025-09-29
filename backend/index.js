@@ -1,98 +1,11 @@
-const express = require("express");
-const Razorpay = require("razorpay");
-const cors = require("cors");
-const crypto = require("crypto");
-require("dotenv").config();
+const app = require('./app'); // Import the configured app
 const connectDB = require('./connectDB');
-const { Payment } = require("./models/paymentModel.js");
-
-const EventRouter = require('./routes/EventsRoutes.js');
-const OrganisationRouter = require('./routes/OrganisationRoutes.js');
-const authRoutes = require('./routes/authRoutes.js');
-const app = express();
+require("dotenv").config();
 
 connectDB();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.urlencoded({ extended: true }));
+const port = process.env.PORT || 4000;
 
-// CORS configuration
-app.use(cors({
-    origin: ['http://localhost:5173', 'https://nourish360-m9f7.vercel.app'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'], 
-    credentials: true
-}));
-app.use('/api/auth', authRoutes);
-app.use('/api/events', EventRouter);
-app.use('/api/organisations', OrganisationRouter);
-
-app.get("/api/getkey", (req, res) =>
-    res.status(200).json({ key: process.env.RAZORPAY_KEY_ID })
-);
-
-app.post("/order", async (req, res) => {
-  try {
-    const razorpay = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID,
-      key_secret: process.env.RAZORPAY_SECRET,
-    });
-
-    const { amount, currency, receipt } = req.body;
-
-    const options = {
-      amount,
-      currency,
-      receipt,
-    };
-
-    const order = await razorpay.orders.create(options);
-
-    if (!order) {
-      return res.status(500).send("Error");
-    }
-
-    res.json(order);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error");
-  }
-});
-
-app.post("/paymentverification", async (req, res) => {
-  try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
-
-    // Verify signature
-    const sha = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
-    sha.update(`${razorpay_order_id}|${razorpay_payment_id}`);
-    const digest = sha.digest("hex");
-
-    if (digest !== razorpay_signature) {
-      return res.status(400).json({ msg: "Transaction is not legit!" });
-    }
-
-    await Payment.create({
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
-      status: "captured", // optional field
-      createdAt: new Date(),
-    });
-
-    res.json({
-      msg: "success",
-      orderId: razorpay_order_id,
-      paymentId: razorpay_payment_id,
-    });
-  } catch (error) {
-    console.error("Validate error:", error);
-    res.status(500).json({ msg: "Server error" });
-  }
-});
-
-
-app.listen(process.env.PORT, () => {
-  console.log(`Server is running on port ${process.env.PORT}`);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
