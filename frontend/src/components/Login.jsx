@@ -13,6 +13,7 @@ const Login = () => {
       // Redirect or update state
     } catch (error) {
       // Handle error
+      setError(err.message);
     }
   };
 

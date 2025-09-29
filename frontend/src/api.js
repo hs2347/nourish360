@@ -1,7 +1,8 @@
 import axios from 'axios';
+const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api`;
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api' // Your backend API base URL
+  baseURL: API_URL 
 });
 // https://nourish360-backend.onrender.com/api',
 api.interceptors.request.use(
