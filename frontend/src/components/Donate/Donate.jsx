@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DonationOptions from './DonationOptions';
 import DonationForm from './DonationForm';
+import { useNavigate } from 'react-router-dom';
 import api from '../../api'; // Use the api instance
 
 const Donate = () => {
@@ -8,6 +9,7 @@ const Donate = () => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [note, setNote] = useState('');
+   const navigate = useNavigate();
 
   const selectAmount = (amount) => {
     setSelectedAmount(amount);
@@ -43,10 +45,18 @@ const Donate = () => {
                 note
             };
             try {
-                const verificationResponse = await api.post('/paymentverification', dataToVerify);
-                // You can handle success navigation here if needed, 
-                // but the backend already redirects.
-                console.log(verificationResponse);
+                 await api.post('/paymentverification', dataToVerify);
+      
+                alert("Payment successful! Thank you for your donation.");
+                
+                // Clear the form fields
+                setName('');
+                setPhone('');
+                setNote('');
+                setSelectedAmount('');
+
+                // Navigate to the homepage
+                navigate('/');
             } catch (error) {
                 console.error("Payment Verification Error:", error);
             }
@@ -60,7 +70,7 @@ const Donate = () => {
           note: note,
         },
         theme: {
-          color: "#3399cc",
+         color: "#ff7e7e",
         },
       };
 

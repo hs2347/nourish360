@@ -2,7 +2,7 @@ const Razorpay = require("razorpay");
 const crypto = require('crypto');
 const { Payment } = require('../models/paymentModel.js');
 
-// This instance was in index.js, it should be here or initialized centrally.
+
 const instance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_SECRET,
@@ -57,7 +57,10 @@ const paymentVerification = async (req, res) => {
     });
 
     // Redirect to a frontend success page
-    res.redirect(`https://nourish360-m9f7.vercel.app/paymentsuccess?reference=${razorpay_payment_id}`);
+      res.status(200).json({
+      success: true,
+      message: "Payment successful!"
+    });
 
   } else {
     res.status(400).json({
