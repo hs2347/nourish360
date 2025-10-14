@@ -44,7 +44,7 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ email });
      console.log('--- LOGIN ATTEMPT ---');
     if (!user) {
-      console.log(`Login Error: User with email "${email}" not found.`);
+      console.log(`Login Error: User with email  not found.`);
       return res.status(401).json({ message: 'User not found' });
     }
      console.log('User found in DB:', user);

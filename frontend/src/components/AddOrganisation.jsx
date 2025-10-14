@@ -30,7 +30,11 @@ const AddOrganisation = () => {
             }
         } catch (err) {
             console.error('Error submitting organisation:', err);
-            setError(err.response?.data?.message || 'Failed to add organisation.');
+            if (err.response && err.response.status === 401) {
+          setError('You must be logged in to add an organisation. Please log in first.');
+      } else {
+          setError(err.response?.data?.message || 'Failed to add organisation.');
+      }
         }
     };
 

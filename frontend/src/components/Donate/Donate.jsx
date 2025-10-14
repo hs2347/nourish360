@@ -35,7 +35,7 @@ const Donate = () => {
         currency: "INR",
         name: "Nourish360",
         description: "Donation Transaction",
-        image: "/logo.png", // Or your logo URL
+        image: "/logo.png", 
         order_id: order.id,
         handler: async function (response) {
             const dataToVerify = {

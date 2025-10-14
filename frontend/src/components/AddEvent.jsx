@@ -32,7 +32,11 @@ const AddEvent = () => {
             }
         } catch (err) {
             console.error('Error submitting event:', err);
-            setError(err.response?.data?.message || 'Failed to add event.');
+             if (err.response && err.response.status === 401) {
+        setError('You must be logged in to create an event. Please log in first.');
+      } else {
+        setError(err.response?.data?.message || 'Failed to add event.');
+      }
         }
   };
 
