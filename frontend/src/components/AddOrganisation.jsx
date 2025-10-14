@@ -9,7 +9,6 @@ const AddOrganisation = () => {
   const [donatePage, setDonatePage] = useState("");
   const [siteLink, setSiteLink] = useState("");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -107,16 +106,12 @@ const AddOrganisation = () => {
       </form>
 
       <div className="bg-slate-100 flex flex-col">
-        {error &&
-          error.map((e, index) => (
-            <div
-              key={index}
-              className={`${success ? "text-[#29b6f6]" : "text-red-600"} px-5 py-2`}
-            >
-              {e}
-            </div>
-          ))}
-      </div>
+    {error &&
+        <div className="text-red-600 px-5 py-2">
+          {error}
+        </div>
+    }
+</div>
     </div>
   );
 };
